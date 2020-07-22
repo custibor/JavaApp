@@ -1,24 +1,14 @@
 package server;
 
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
-import java.net.*;
-import java.io.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 
-public class Server
-{
-
-
-    // constructor with port
-
-
+public class Server{
     public static void main(String args[]) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8500), 0);
-        HttpContext context = server.createContext("/");
-        context.setHandler(new MyHttpHandler());
+        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 0);
+        server.createContext("/", new  MyHttpHandler());
         server.start();
     }
-} 
+}
