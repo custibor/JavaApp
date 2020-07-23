@@ -2,6 +2,9 @@ package server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import netscape.javascript.JSObject;
+import suncertify.db.Data;
+import suncertify.db.DatabaseException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,7 +25,11 @@ class MyHttpHandler implements HttpHandler {
         else if("POST".equals(httpExchange.getRequestMethod())) {
             requestParamValue = handlePostRequest(httpExchange);
         }
-        handleResponse(httpExchange,requestParamValue);
+        try {
+            handleResponse(httpExchange,requestParamValue);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
     }
 
     private String handlePostRequest(HttpExchange httpExchange) {
@@ -37,15 +44,14 @@ class MyHttpHandler implements HttpHandler {
                 .split("\\?")[1]
                 .split("=")[1];*/
     }
-    private void handleResponse(HttpExchange httpExchange, String requestParamValue) throws IOException {
+    private void handleResponse(HttpExchange httpExchange, String requestParamValue) throws IOException, DatabaseException {
         OutputStream outputStream = httpExchange.getResponseBody();
-        StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<html><\\html>");
-        // encode HTML content
+        Data data = new Data("src/data/flights.txt");
+        System.out.println(data.find("SFO"));
         String htmlResponse = "This is the response";
         System.out.println("Here");
         // this line is a must
-        httpExchange.sendResponseHeaders(500, htmlResponse.length());
+        httpExchange.sendResponseHeaders(200, htmlResponse.length());
         outputStream.write(htmlResponse.getBytes());
         outputStream.flush();
         outputStream.close();

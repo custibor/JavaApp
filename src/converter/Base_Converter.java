@@ -49,7 +49,7 @@ public class Base_Converter implements Converter{
     public String[] convert_string(String entry){
         String[] data;
         if(strip_entry){
-            entry = entry.strip();
+            //entry = entry.strip();
         }
         data = entry.split("@");
         return data;

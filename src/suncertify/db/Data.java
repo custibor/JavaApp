@@ -147,6 +147,11 @@ public class Data {
     * @return DataInfo The matching record.
     * @exception DatabaseException Thrown when database file could not be accessed.
     */
+
+    public String[] find(String[] queryset, String columnName, String searchParam){
+
+
+    }
     public synchronized DataInfo find(String toMatch) throws DatabaseException {
         invariant();
         try {
